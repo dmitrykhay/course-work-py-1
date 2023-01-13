@@ -1,6 +1,7 @@
 import requests
 import os
 from pathlib import Path
+from pprint import pprint
 
 
 class VK:
@@ -40,16 +41,19 @@ class VK:
             item_dict['likes'] = likes
             date_time = item['date']
             item_dict['date_time'] = date_time
-            photo = item['sizes']
-            # pprint(photo)
-            for i in photo:
-                if 'w' or 'z' or 'y' in i.values():
-                    url = i['url']
-                    item_dict['url'] = url
-                    item_dict['size'] = i['type']
+            for size in item['sizes']:
+                if size['type'] == 'w':
+                    item_dict['url'] = size['url']
+                    item_dict['size'] = size['type']
+                if size['type'] == 'z':
+                    item_dict['url'] = size['url']
+                    item_dict['size'] = size['type']
+                if size['type'] == 'y':
+                    item_dict['url'] = size['url']
+                    item_dict['size'] = size['type']
             urls.append(item_dict)
         print('Ссылки для скачивания фотографий в максимальном разрешении сформированы.\n')
-        #pprint(urls)
+        pprint(urls)
         return urls
 
     def photos_download(self):
